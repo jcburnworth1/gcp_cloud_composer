@@ -4,5 +4,7 @@
   "email_on_failure": false,
   "email_on_retry": false,
   "retries": 0,
-  "use_legacy_sql": false
+  "use_legacy_sql": false,
+  "project_id": "cloud-composer-poc-334522",
+  "dataset": "taxi_trips"
 }
