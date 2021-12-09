@@ -1,0 +1,13 @@
+steps:
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    # Load dag to gs://us-central1-composer-burnwo-352245cf-bucket/dag
+    args: ['gsutil', 'cp', 'taxi_data_pipeline/taxi_data_dag.py', 'gs://us-central1-composer-burnwo-352245cf-bucket/dag/']
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    # Load sql to gs://us-central1-composer-burnwo-352245cf-bucket/dag/sql
+    args: [ 'gsutil', 'cp', 'taxi_data_pipeline/sql/taxi_query.sql', 'gs://us-central1-composer-burnwo-352245cf-bucket/dag/sql/']
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    # Load configuration file to gs://us-central1-composer-burnwo-352245cf-bucket/dag/sql
+    args: [ 'gsutil', 'cp', 'utils/conf-prod.json', 'gs://us-central1-composer-burnwo-352245cf-bucket/dag/conf/']
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    # Load python utils to gs://us-central1-composer-burnwo-352245cf-bucket/dag/utils
+    args: [ 'gsutil', 'cp', 'utils/python/*', 'gs://us-central1-composer-burnwo-352245cf-bucket/dag/utils/python/']

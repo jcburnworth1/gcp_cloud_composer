@@ -1,0 +1,8 @@
+{
+  "owner": "jc_burnworth",
+  "depends_on_past": false,
+  "email_on_failure": false,
+  "email_on_retry": false,
+  "retries": 0,
+  "use_legacy_sql": false
+}
