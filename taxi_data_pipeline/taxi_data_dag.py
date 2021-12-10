@@ -73,7 +73,8 @@ with DAG(dag_id='taxi-data-pipeline',
                 }
             },
             'createDisposition': 'CREATE_IF_NEEDED',
-            'writeDisposition': 'WRITE_TRUNCATE'
+            'writeDisposition': 'WRITE_TRUNCATE',
+            'useLegacySql': False
         },
         params=default_args
     )
