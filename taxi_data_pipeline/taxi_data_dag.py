@@ -70,7 +70,6 @@ with DAG(dag_id='taxi-data-pipeline',
             },
             'writeDisposition': 'WRITE_TRUNCATE'
         },
-        write_disposition='WRITE_TRUNCATE',
         params=default_args
     )
 
