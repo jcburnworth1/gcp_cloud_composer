@@ -63,8 +63,13 @@ with DAG(dag_id='taxi-data-pipeline',
 
     bq_load_v2 = BigQueryInsertJobOperator(
         task_id='load_bq_table_v2',
-        sql=default_args['taxi_query'],
-        destination_dataset_table=default_args['destination_dataset_table_v2'],
+        configuration={
+            'query': {
+                'query': default_args['taxi_query'],
+                'destinationTable': default_args['destination_dataset_table_v2']
+            },
+            'writeDisposition': 'WRITE_TRUNCATE'
+        },
         write_disposition='WRITE_TRUNCATE',
         params=default_args
     )
