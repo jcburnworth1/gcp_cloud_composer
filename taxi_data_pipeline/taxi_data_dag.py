@@ -16,7 +16,8 @@ sys.path.append(os.environ['GCS_BUCKET'] + '/dags/utils/python')
 default_args = read_conf().get_default_args()
 default_args['use_legacy_sql'] = False
 r_cfg = {'taxi_query': 'sql/taxi_query.sql',
-         'destination_dataset_table': 'cloud-composer-poc-334522.taxi_trips.all_taxi_trips_test'}
+         'destination_dataset_table': 'cloud-composer-poc-334522.taxi_trips.all_taxi_trips_test',
+         'destination_dataset_table_v2': 'cloud-composer-poc-334522.taxi_trips.all_taxi_trips_test_v2',}
 default_args.update(r_cfg)
 
 def print_default_args():
@@ -60,4 +61,12 @@ with DAG(dag_id='taxi-data-pipeline',
         params=default_args
     )
 
-    start >> pc >> pe >> bq_load >> end
+    bq_load_v2 = BigQueryInsertJobOperator(
+        task_id='load_bq_table_v2',
+        sql=default_args['taxi_query'],
+        destination_dataset_table=default_args['destination_dataset_table_v2'],
+        write_disposition='WRITE_TRUNCATE',
+        params=default_args
+    )
+
+    start >> pc >> pe >> [bq_load, bq_load_v2] >> end
