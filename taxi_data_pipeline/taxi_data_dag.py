@@ -75,7 +75,11 @@ with DAG(dag_id='taxi-data-pipeline',
                                    '0338ede9-494f-4caa-88dc-91eff3648a3e','e20a954e-baf9-40a2-af84-006c8fe26e0d',
                                    '7db6a04b-e394-4c0b-9439-efe94ae5ecb9','922e90bf-deca-4ec1-9453-9edc73efc8af',
                                    '03fd0b86-d3a2-417e-9275-884a0bcaf03c','97499029-8eed-4610-b79b-1c674a20504b')""",
-                'destinationTable': default_args['destination_dataset_table_v2']
+                'destinationTable': {
+                    "projectId": "cloud-composer-poc-334522",
+                    "datasetId": "taxi_trips",
+                    "tableId": "all_taxi_trips_test_v2"
+                }
             },
             'createDisposition': 'CREATE_IF_NEEDED',
             'writeDisposition': 'WRITE_TRUNCATE'
