@@ -5,7 +5,8 @@ from datetime import datetime
 from airflow import DAG
 from airflow.operators.dummy import DummyOperator
 from airflow.operators.python import PythonOperator
-from airflow.contrib.operators.bigquery_operator import BigQueryOperator
+# from airflow.contrib.operators.bigquery_operator import BigQueryOperator
+from airflow.providers.google.cloud.operators.bigquery import BigQueryInsertJobOperator, BigQueryExecuteQueryOperator
 from utils.python.read_conf import read_conf
 
 ## Add library for customs utils
@@ -14,9 +15,8 @@ sys.path.append(os.environ['GCS_BUCKET'] + '/dags/utils/python')
 ## Load Default Args
 default_args = read_conf().get_default_args()
 default_args['use_legacy_sql'] = False
-
-r_cfg = {'taxi_query': 'sql/taxi_query.sql'}
-
+r_cfg = {'taxi_query': 'sql/taxi_query.sql',
+         'destination_dataset_table': 'cloud-composer-poc-334522.taxi_trips.all_taxi_trips_test'}
 default_args.update(r_cfg)
 
 def print_default_args():
@@ -52,10 +52,10 @@ with DAG(dag_id='taxi-data-pipeline',
     pe = PythonOperator(task_id='print_environment',
                         python_callable=print_env)
 
-    bq_load = BigQueryOperator(
+    bq_load = BigQueryExecuteQueryOperator(
         task_id='load_bq_table',
         sql=default_args['taxi_query'],
-        destination_dataset_table='cloud-composer-poc-334522.taxi_trips.all_taxi_trips_test',
+        destination_dataset_table=default_args['destination_dataset_table'],
         write_disposition='WRITE_TRUNCATE',
         params=default_args
     )
