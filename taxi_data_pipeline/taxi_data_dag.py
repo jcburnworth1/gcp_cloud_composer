@@ -77,6 +77,7 @@ with DAG(dag_id='taxi-data-pipeline',
                                    '03fd0b86-d3a2-417e-9275-884a0bcaf03c','97499029-8eed-4610-b79b-1c674a20504b')""",
                 'destinationTable': default_args['destination_dataset_table_v2']
             },
+            'createDisposition': 'CREATE_IF_NEEDED',
             'writeDisposition': 'WRITE_TRUNCATE'
         },
         params=default_args
