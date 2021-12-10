@@ -60,22 +60,4 @@ with DAG(dag_id='taxi-data-pipeline',
         params=default_args
     )
 
-    bq_load_v2 = BigQueryInsertJobOperator(
-        task_id='load_bq_table_v2',
-        configuration={
-            'query': {
-                'query': "{% include sql/taxi_query.sql %}",
-                'useLegacySql': 'false',
-                'destinationTable': {
-                    "projectId": "cloud-composer-poc-334522",
-                    "datasetId": "taxi_trips",
-                    "tableId": "all_taxi_trips_test_v2"
-                },
-            },
-            'createDisposition': 'CREATE_IF_NEEDED',
-            'writeDisposition': 'WRITE_TRUNCATE'
-        },
-        params=default_args
-    )
-
-    start >> pc >> pe >> [bq_load, bq_load_v2] >> end
+    start >> pc >> pe >> bq_load >> end
