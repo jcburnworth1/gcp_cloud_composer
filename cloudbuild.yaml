@@ -1,13 +1,13 @@
 steps:
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     # Load dags to gs://us-central1-composer-burnwo-db1f01e8-bucket/dag
-    args: ['gsutil', 'cp', 'gcp_cloud_composer/*/*.py', 'gs://us-central1-composer-burnwo-db1f01e8-bucket/dags/']
+    args: ['gsutil', 'cp', '*/*_dag.py', 'gs://us-central1-composer-burnwo-db1f01e8-bucket/dags/']
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     # Load sql to gs://us-central1-composer-burnwo-db1f01e8-bucket/dag/sql
-    args: [ 'gsutil', 'cp', 'gcp_cloud_composer/*/*/sql/*.sql', 'gs://us-central1-composer-burnwo-db1f01e8-bucket/dags/sql/']
+    args: [ 'gsutil', 'cp', '*/sql/*.sql', 'gs://us-central1-composer-burnwo-db1f01e8-bucket/dags/sql/']
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     # Load configuration file to gs://us-central1-composer-burnwo-db1f01e8-bucket/dags/sql
-    args: [ 'gsutil', 'cp', 'gcp_cloud_composer/utils/*.json', 'gs://us-central1-composer-burnwo-db1f01e8-bucket/dags/conf/']
+    args: [ 'gsutil', 'cp', 'utils/*.json', 'gs://us-central1-composer-burnwo-db1f01e8-bucket/dags/conf/']
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     # Load python utils to gs://us-central1-composer-burnwo-db1f01e8-bucket/dag/utils
-    args: [ 'gsutil', 'cp', 'gcp_cloud_composer/utils/python/*', 'gs://us-central1-composer-burnwo-db1f01e8-bucket/dags/utils/python/']
+    args: [ 'gsutil', 'cp', 'utils/python/*', 'gs://us-central1-composer-burnwo-db1f01e8-bucket/dags/utils/python/']
