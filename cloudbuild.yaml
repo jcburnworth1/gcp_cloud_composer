@@ -8,17 +8,17 @@ steps:
     args: [ 'gsutil', 'cp', '*/sql/*.sql', 'gs://us-central1-composer-burnwo-db1f01e8-bucket/dags/sql/' ]
 
   ## Echo branch name - Will use later to load proper config file
-  - name: 'alpine'
-    id: 'branch_name'
-    entrypoint: 'sh'
-    args:
-      - '-c'
-      - |
-        export ENV=$BRANCH_NAME
-        echo "***********************"
-        echo "$BRANCH_NAME"
-        echo "$$ENV"
-        echo "***********************"     
+#  - name: 'alpine'
+#    id: 'branch_name'
+#    entrypoint: 'sh'
+#    args:
+#      - '-c'
+#      - |
+#        export ENV=$BRANCH_NAME
+#        echo "***********************"
+#        echo "$BRANCH_NAME"
+#        echo "$$ENV"
+#        echo "***********************"
 
   # Load configuration file to gs://us-central1-composer-burnwo-db1f01e8-bucket/dags/sql
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
