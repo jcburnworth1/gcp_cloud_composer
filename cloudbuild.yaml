@@ -1,13 +1,32 @@
 steps:
+  # Load dags to gs://us-central1-composer-burnwo-db1f01e8-bucket/dag
+  - id: 'load_dags'
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-    # Load dags to gs://us-central1-composer-burnwo-db1f01e8-bucket/dag
     args: ['gsutil', 'cp', '*/*_dag.py', 'gs://us-central1-composer-burnwo-db1f01e8-bucket/dags/']
+
+  # Load sql to gs://us-central1-composer-burnwo-db1f01e8-bucket/dag/sql
+  - id: 'load_sql'
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-    # Load sql to gs://us-central1-composer-burnwo-db1f01e8-bucket/dag/sql
     args: [ 'gsutil', 'cp', '*/sql/*.sql', 'gs://us-central1-composer-burnwo-db1f01e8-bucket/dags/sql/']
+
+  - id: 'branch_name'
+    name: 'alpine'
+    entrypoint: 'sh'
+    args:
+      - '-c'
+      - |
+        export ENV=$BRANCH_NAME
+        echo "***********************"
+        echo "$BRANCH_NAME"
+        echo "$$ENV"
+        echo "***********************"     
+
+  # Load configuration file to gs://us-central1-composer-burnwo-db1f01e8-bucket/dags/sql
+  - id: 'load_configuration'
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-    # Load configuration file to gs://us-central1-composer-burnwo-db1f01e8-bucket/dags/sql
     args: [ 'gsutil', 'cp', 'utils/*.json', 'gs://us-central1-composer-burnwo-db1f01e8-bucket/dags/conf/']
+
+  # Load python utils to gs://us-central1-composer-burnwo-db1f01e8-bucket/dag/utils
+  - id: 'load_utils'
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-    # Load python utils to gs://us-central1-composer-burnwo-db1f01e8-bucket/dag/utils
     args: [ 'gsutil', 'cp', 'utils/python/*', 'gs://us-central1-composer-burnwo-db1f01e8-bucket/dags/utils/python/']
