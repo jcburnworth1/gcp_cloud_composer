@@ -1,29 +1,13 @@
 steps:
-  # Load dags to gs://us-central1-composer-burnwo-db1f01e8-bucket/dag
-  - name: 'gcr.io/ google.com/cloudsdktool/cloud-sdk'
-    args: [ 'gsut jil', 'cp', '*/*_dag.py', 'gs://us-central1-composer-burnwo-db1f01e8-bucket/dags/' ]
-
-  # Load sql to gs://us-central1-composer-burnwo-db1f01e8-bucket/dag/sql
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-    args: [ 'gsutil', 'cp', '*/sql/*.sql', 'gs://us-central1-composer-burnwo-db1f01e8-bucket/dags/sql/' ]
-
-  ## Echo branch name - Will use later to load proper config file
-#  - name: 'alpine'
-#    id: 'branch_name'
-#    entrypoint: 'sh'
-#    args:
-#      - '-c'
-#      - |
-#        export ENV=$BRANCH_NAME
-#        echo "***********************"
-#        echo "$BRANCH_NAME"
-#        echo "$$ENV"
-#        echo "***********************"
-
-  # Load configuration file to gs://us-central1-composer-burnwo-db1f01e8-bucket/dags/sql
+    # Load dags to gs://us-central1-composer-burnwo-db1f01e8-bucket/dag
+    args: ['gsutil', 'cp', '*/*_dag.py', 'gs://us-central1-composer-burnwo-db1f01e8-bucket/dags/']
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-    args: [ 'gsutil', 'cp', 'utils/*.json', 'gs://us-central1-composer-burnwo-db1f01e8-bucket/dags/conf/' ]
-
-  # Load python utils to gs://us-central1-composer-burnwo-db1f01e8-bucket/dag/utils
+    # Load sql to gs://us-central1-composer-burnwo-db1f01e8-bucket/dag/sql
+    args: [ 'gsutil', 'cp', '*/sql/*.sql', 'gs://us-central1-composer-burnwo-db1f01e8-bucket/dags/sql/']
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-    args: [ 'gsutil', 'cp', 'utils/python/*', 'gs://us-central1-composer-burnwo-db1f01e8-bucket/dags/utils/python/' ]
+    # Load configuration file to gs://us-central1-composer-burnwo-db1f01e8-bucket/dags/sql
+    args: [ 'gsutil', 'cp', 'utils/*.json', 'gs://us-central1-composer-burnwo-db1f01e8-bucket/dags/conf/']
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    # Load python utils to gs://us-central1-composer-burnwo-db1f01e8-bucket/dag/utils
+    args: [ 'gsutil', 'cp', 'utils/python/*', 'gs://us-central1-composer-burnwo-db1f01e8-bucket/dags/utils/python/']
