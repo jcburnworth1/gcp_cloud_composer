@@ -16,4 +16,10 @@ steps:
     # Load python utils to gs://us-central1-composer-burnwo-db1f01e8-bucket/dag/utils
     args: [ 'gsutil', 'cp', 'utils/python/*', 'gs://us-central1-composer-burnwo-db1f01e8-bucket/dags/utils/python/']
   - name: 'ubuntu'
+    id: 'test echo'
     args: ['echo', '$BRANCH_NAME']
+  - name: 'ubuntu'
+    id: 'test branch equality'
+    args:
+      - 'c'
+      - if [ "$BRANCH_NAME" = "main" ]; then echo $BRANCH_NAME else 'other branch' fi
