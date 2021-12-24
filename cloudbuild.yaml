@@ -18,14 +18,13 @@ steps:
   - name: 'ubuntu'
     id: 'test echo'
     args: ['echo', '$BRANCH_NAME']
-  - name: 'ubuntu'
-    id: 'test branch equality'
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: 'config deploy logic'
+    entrypoint: bash
     args:
       - '-c'
       - |
-        if [ $BRANCH_NAME = "main" ] 
+        if [ $BRANCH_NAME != "main" ] 
         then 
-          echo $BRANCH_NAME
-        else
-          echo "some other branch"
+          gsutil cp test.sh gs://us-central1-composer-burnwo-db1f01e8-bucket/dags/utils/
         fi
