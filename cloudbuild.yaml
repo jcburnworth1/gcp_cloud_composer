@@ -21,5 +21,11 @@ steps:
   - name: 'ubuntu'
     id: 'test branch equality'
     args:
-      - 'c'
-      - if [ "$BRANCH_NAME" = "main" ]; then echo $BRANCH_NAME else 'other branch' fi
+      - '-c'
+      - |
+        if [ $BRANCH_NAME = "main" ] 
+        then 
+          echo $BRANCH_NAME
+        else
+          echo "some other branch"
+        fi
