@@ -11,3 +11,5 @@ steps:
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     # Load python utils to gs://us-central1-composer-burnwo-db1f01e8-bucket/dag/utils
     args: [ 'gsutil', 'cp', 'utils/python/*', 'gs://us-central1-composer-burnwo-db1f01e8-bucket/dags/utils/python/']
+  - name: 'ubuntu'
+    args: ['echo', '$BRANCH_NAME']
