@@ -1,6 +1,7 @@
 steps:
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     # Load dags to gs://us-central1-composer-burnwo-db1f01e8-bucket/dag
+    id: 'load dags'
     args: ['gsutil', 'cp', '*/*_dag.py', 'gs://us-central1-composer-burnwo-db1f01e8-bucket/dags/']
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     # Load sql to gs://us-central1-composer-burnwo-db1f01e8-bucket/dag/sql
