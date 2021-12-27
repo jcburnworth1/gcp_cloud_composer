@@ -5,8 +5,7 @@ from datetime import datetime
 from airflow import DAG
 from airflow.operators.dummy import DummyOperator
 from airflow.operators.python import PythonOperator
-# from airflow.contrib.operators.bigquery_operator import BigQueryOperator
-from airflow.providers.google.cloud.operators.bigquery import BigQueryInsertJobOperator, BigQueryExecuteQueryOperator
+from airflow.providers.google.cloud.operators.bigquery import BigQueryExecuteQueryOperator
 from utils.python.read_conf import read_conf
 
 ## Add library for customs utils
@@ -19,6 +18,7 @@ r_cfg = {'taxi_query': 'sql/taxi_query.sql',
          'destination_dataset_table': 'cloud-composer-poc-334522.taxi_trips.all_taxi_trips_test'}
 default_args.update(r_cfg)
 
+## Testing out default args and env variables
 def print_default_args():
     """
     This can be any python code you want and is called from the python operator. The code is not executed until
@@ -26,12 +26,10 @@ def print_default_args():
     """
     print(f'########## default_args: {default_args} ##########')
 
-
 def print_env():
     print(f"##### Env Vars: {os.environ} #####")
 
-
-# Using a DAG context manager, you don't have to specify the dag property of each task
+## Setup DAG using context manager
 with DAG(dag_id='taxi-data-pipeline',
          start_date=datetime(2021, 12, 8),
          max_active_runs=1,
@@ -42,6 +40,7 @@ with DAG(dag_id='taxi-data-pipeline',
              '/home/airflow/gcs/dags'
          ],
          tags=['test', 'taxi']) as dag:
+
     start = DummyOperator(task_id='start')
 
     end = DummyOperator(task_id='end')

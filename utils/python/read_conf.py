@@ -19,9 +19,11 @@ class read_conf():
         return conf
 
     def get_environ(self):
-        if self.bucket_name == 'us-central1-composer-burnwo-352245cf-bucket':
+        if self.bucket_name == 'us-central1-composer-burnwo-db1f01e8-bucket':
             item = 'dags/conf/conf-prod.json'
+        elif self.bucket_name == 'test-bucket':
+            item = 'dags/conf/conf-test.json'
         else:
-            item = None
+            item = 'dags/conf/conf-dev.json'
 
         return item
