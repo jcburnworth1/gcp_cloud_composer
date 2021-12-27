@@ -10,7 +10,7 @@ steps:
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     # Load configuration file to gs://us-central1-composer-burnwo-db1f01e8-bucket/dags/conf
     id: 'load config'
-    args: [ 'gsutil', 'cp', 'utils/*.json', 'gs://us-central1-composer-burnwo-db1f01e8-bucket/dags/conf/']
+    args: [ 'gsutil', 'cp', 'utils/conf/*.json', 'gs://us-central1-composer-burnwo-db1f01e8-bucket/dags/conf/']
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     id: 'load utils'
     # Load python utils to gs://us-central1-composer-burnwo-db1f01e8-bucket/dag/utils
