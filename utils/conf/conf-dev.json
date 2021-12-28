@@ -1,6 +1,6 @@
 {
   "catchup": false,
-  "dataset": "taxi_trips"
+  "dataset": "taxi_trips",
   "depends_on_past": false,
   "email_on_failure": true,
   "email_on_retry": false,
