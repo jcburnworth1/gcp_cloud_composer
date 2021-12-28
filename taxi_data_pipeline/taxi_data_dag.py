@@ -37,7 +37,7 @@ with DAG(dag_id='taxi-data-pipeline',
          default_args=default_args,
          catchup=False,
          template_searchpath=[
-             '/home/airflow/gcs/dags'
+             '/home/airflow/gcs/dags/sql'
          ],
          tags=['test', 'taxi']) as dag:
 
