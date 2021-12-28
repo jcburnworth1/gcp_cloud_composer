@@ -5,6 +5,7 @@ from datetime import datetime
 from airflow import DAG
 from airflow.operators.dummy import DummyOperator
 from airflow.operators.python import PythonOperator
+from airflow.operators.email import EmailOperator
 from airflow.providers.google.cloud.operators.bigquery import BigQueryExecuteQueryOperator
 from utils.python.read_conf import read_conf
 
@@ -13,8 +14,7 @@ sys.path.append(os.environ['GCS_BUCKET'] + '/dags/utils/python')
 
 ## Load Default Args
 default_args = read_conf().get_default_args()
-default_args['use_legacy_sql'] = False
-r_cfg = {'taxi_query': 'sql/taxi_query.sql',
+r_cfg = {'taxi_query': 'taxi_query.sql',
          'destination_dataset_table': 'cloud-composer-poc-334522.taxi_trips.all_taxi_trips_test'}
 default_args.update(r_cfg)
 
@@ -32,13 +32,7 @@ def print_env():
 ## Setup DAG using context manager
 with DAG(dag_id='taxi-data-pipeline',
          start_date=datetime(2021, 12, 8),
-         max_active_runs=1,
-         schedule_interval=None,
          default_args=default_args,
-         catchup=False,
-         template_searchpath=[
-             '/home/airflow/gcs/dags'
-         ],
          tags=['test', 'taxi']) as dag:
 
     start = DummyOperator(task_id='start')
@@ -59,4 +53,10 @@ with DAG(dag_id='taxi-data-pipeline',
         params=default_args
     )
 
-    start >> pc >> pe >> bq_load >> end
+    email_test = EmailOperator(
+        to=['jcb.learning.gcp@gmail.com'],
+        subject='THIS IS A TEST',
+        html_content='THIS IS A TEST'
+    )
+
+    start >> pc >> pe >> bq_load >> email_test >> end

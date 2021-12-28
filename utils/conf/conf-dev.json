@@ -1,10 +1,15 @@
 {
-  "owner": "jc_burnworth",
-  "depends_on_past": false,
-  "email_on_failure": false,
-  "email_on_retry": false,
-  "retries": 0,
-  "use_legacy_sql": false,
-  "project_id": "cloud-composer-poc-334522",
+  "catchup": false,
   "dataset": "taxi_trips"
+  "depends_on_past": false,
+  "email_on_failure": true,
+  "email_on_retry": false,
+  "email_on_success": true,
+  "max_active_runs": 1,
+  "owner": "jc.burnworth",
+  "project_id": "cloud-composer-poc-334522",
+  "retries": 0,
+  "schedule_interval": null,
+  "template_searchpath": "/home/airflow/gcs/dags/sql",
+  "use_legacy_sql": false
 }
