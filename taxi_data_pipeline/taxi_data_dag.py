@@ -61,7 +61,7 @@ with DAG(dag_id='taxi-data-pipeline',
 
     email_test = EmailOperator(
         task_id='send_email',
-        to=['jcb.learning.gcp@gmail.com'],
+        to='jcb.learning.gcp@gmail.com',
         subject='THIS IS A TEST',
         html_content='THIS IS A TEST'
     )
