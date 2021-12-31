@@ -35,7 +35,6 @@ with DAG(dag_id='taxi-data-pipeline',
          start_date=datetime(2021, 12, 8),
          max_active_runs=1,
          schedule_interval=None,
-         email=['jcb.learning.gcp@gmamil.com'],
          default_args=default_args,
          catchup=False,
          template_searchpath=[

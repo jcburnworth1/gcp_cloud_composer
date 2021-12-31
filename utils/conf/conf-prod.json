@@ -3,6 +3,7 @@
   "depends_on_past": false,
   "email_on_failure": true,
   "email_on_retry": false,
+  "email": ["jcb.learning.gcp@gmail.com"],
   "retries": 0,
   "use_legacy_sql": false,
   "project_id": "cloud-composer-poc-334522",
