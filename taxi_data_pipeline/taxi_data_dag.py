@@ -4,6 +4,7 @@ import sys
 from datetime import datetime
 from airflow import DAG
 from airflow.operators.dummy import DummyOperator
+from airflow.operators.bash import BashOperator
 from airflow.operators.python import PythonOperator
 from airflow.operators.email import EmailOperator
 from airflow.providers.google.cloud.operators.bigquery import BigQueryExecuteQueryOperator
@@ -34,6 +35,7 @@ with DAG(dag_id='taxi-data-pipeline',
          start_date=datetime(2021, 12, 8),
          max_active_runs=1,
          schedule_interval=None,
+         email=['jcb.learning.gcp@gmamil.com'],
          default_args=default_args,
          catchup=False,
          template_searchpath=[
@@ -64,6 +66,11 @@ with DAG(dag_id='taxi-data-pipeline',
         to='jcb.learning.gcp@gmail.com',
         subject='THIS IS A TEST',
         html_content='THIS IS A TEST'
+    )
+
+    bash_fail = BashOperator(
+        task_id='always_fail',
+        bash_command='exit(1)'
     )
 
     start >> pc >> pe >> bq_load >> email_test >> end
