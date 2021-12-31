@@ -72,4 +72,4 @@ with DAG(dag_id='taxi-data-pipeline',
         bash_command='exit(1)'
     )
 
-    start >> pc >> pe >> bq_load >> email_test >> end
+    start >> pc >> pe >> bq_load >> [email_test, bash_fail] >> end
