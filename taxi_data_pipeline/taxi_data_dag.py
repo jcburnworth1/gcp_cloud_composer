@@ -16,7 +16,7 @@ sys.path.append(os.environ['GCS_BUCKET'] + '/dags/utils/python')
 ## Load Default Args
 default_args = read_conf().get_default_args()
 r_cfg = {'taxi_query': 'taxi_query.sql',
-         'destination_dataset_table': 'cloud-composer-poc-334522.taxi_trips.all_taxi_trips_test'}
+         'table': 'all_taxi_trips_test'}
 default_args.update(r_cfg)
 
 ## Testing out default args and env variables
@@ -55,7 +55,7 @@ with DAG(dag_id='taxi-data-pipeline',
     bq_load = BigQueryExecuteQueryOperator(
         task_id='load_bq_table',
         sql=default_args['taxi_query'],
-        destination_dataset_table=default_args['destination_dataset_table'],
+        destination_dataset_table=f"{default_args['project_id']}.{default_args['dataset']}.{default_args['table']}",
         write_disposition='WRITE_TRUNCATE',
         params=default_args
     )
