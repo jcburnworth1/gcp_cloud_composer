@@ -1,0 +1,21 @@
+{
+  "catchup": false,
+  "depends_on_past": false,
+  "email_on_failure": true,
+  "email_on_retry": false,
+  "email": [
+    "jcb.learning.gcp@gmail.com"
+  ],
+  "max_active_runs": 1,
+  "owner": "jc_burnworth",
+  "retries": 0,
+  "schedule_interval": "None",
+  "tags": [
+    "test",
+    "taxi"
+  ],
+  "template_searchpath": [
+    "/home/airflow/gcs/dags/sql"
+  ],
+  "use_legacy_sql": false
+}

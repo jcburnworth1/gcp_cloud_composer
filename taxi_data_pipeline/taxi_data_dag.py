@@ -4,53 +4,74 @@ import sys
 from datetime import datetime
 from airflow import DAG
 from airflow.operators.dummy import DummyOperator
-from airflow.operators.bash import BashOperator
 from airflow.operators.python import PythonOperator
 from airflow.operators.email import EmailOperator
 from airflow.providers.google.cloud.operators.bigquery import BigQueryExecuteQueryOperator
-from utils.python.read_conf import read_conf
+from utils.python.read_args_params import ReadArgsParams
 
 ## Add library for customs utils
 sys.path.append(os.environ['GCS_BUCKET'] + '/dags/utils/python')
 
 ## Load Default Args
-default_args = read_conf().get_default_args()
-r_cfg = {'taxi_query': 'taxi_query.sql',
-         'table': 'all_taxi_trips_test'}
-default_args.update(r_cfg)
+default_args = ReadArgsParams().get_default_args()
+default_args.update({'taxi_query': 'taxi_query.sql'})  # Add any additional default_args here for DAG specific needs
 
-## Testing out default args and env variables
+## Load Params
+params = ReadArgsParams().get_params()
+params.update({'table': 'all_taxi_trips_test'})
+
+## Testing out default default_args and env variables
 def print_default_args():
     """
-    This can be any python code you want and is called from the python operator. The code is not executed until
-    the task is run by the airflow scheduler.
+    Print default arguments
+    :return: None
     """
     print(f'########## default_args: {default_args} ##########')
 
+def print_params():
+    """
+    Print default params
+    :return: None
+    """
+    print(f'########## Params: {params} ##########')
+
 def print_env():
+    """
+    Print environment variables
+    :return:
+    """
     print(f"##### Env Vars: {os.environ} #####")
 
 ## Setup DAG using context manager
 with DAG(dag_id='taxi-data-pipeline',
          start_date=datetime(2021, 12, 8),
-         default_args=default_args) as dag:
+         default_args=default_args,
+         catchup=default_args['catchup'],
+         max_active_runs=default_args['max_active_runs'],
+         schedule_interval=default_args['schedule_interval'],
+         tags=default_args['tags'],
+         template_searchpath=default_args['template_searchpath'],
+         params=params) as dag:
 
     start = DummyOperator(task_id='start')
 
     end = DummyOperator(task_id='end')
 
-    pc = PythonOperator(task_id='print_default_args',
-                        python_callable=print_default_args)
+    print_default_args = PythonOperator(task_id='print_default_args',
+                                        python_callable=print_default_args)
 
-    pe = PythonOperator(task_id='print_environment',
-                        python_callable=print_env)
+    print_params = PythonOperator(task_id='print_params',
+                                  python_callable=print_params)
+
+    print_environment = PythonOperator(task_id='print_environment',
+                                        python_callable=print_env)
 
     bq_load = BigQueryExecuteQueryOperator(
         task_id='load_bq_table',
         sql=default_args['taxi_query'],
-        destination_dataset_table=f"{default_args['project_id']}.{default_args['dataset']}.{default_args['table']}",
+        destination_dataset_table=f"{params['project_id']}.{params['dataset']}.{params['table']}",
         write_disposition='WRITE_TRUNCATE',
-        params=default_args
+        params=params
     )
 
     email_test = EmailOperator(
@@ -60,9 +81,4 @@ with DAG(dag_id='taxi-data-pipeline',
         html_content='THIS IS A TEST'
     )
 
-    bash_fail = BashOperator(
-        task_id='always_fail',
-        bash_command='exit(1)'
-    )
-
-    start >> pc >> pe >> bq_load >> [email_test, bash_fail] >> end
+    start >> [print_default_args, print_params, print_env] >> bq_load >> email_test >> end
