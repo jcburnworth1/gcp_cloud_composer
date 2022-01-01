@@ -19,11 +19,11 @@ class ReadArgsParams:
         :return: Dict of default default_args
         """
         if self.environ == 'prod':
-            args = 'dags/default_args/default_args-prod.json'
+            args = 'dags/default_args/default-args-prod.json'
         elif self.environ == 'test':
-            args = 'dags/default_args/default_args-test.json'
+            args = 'dags/default_args/default-args-test.json'
         else:
-            args = 'dags/default_args/default_args-dev.json'
+            args = 'dags/default_args/default-args-dev.json'
 
         blob = self.bucket.blob(args)
         default_args = json.loads(blob.download_as_string())
