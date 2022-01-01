@@ -33,14 +33,7 @@ def print_env():
 ## Setup DAG using context manager
 with DAG(dag_id='taxi-data-pipeline',
          start_date=datetime(2021, 12, 8),
-         max_active_runs=1,
-         schedule_interval=None,
-         default_args=default_args,
-         catchup=False,
-         template_searchpath=[
-             '/home/airflow/gcs/dags/sql'
-         ],
-         tags=['test', 'taxi']) as dag:
+         default_args=default_args) as dag:
 
     start = DummyOperator(task_id='start')
 

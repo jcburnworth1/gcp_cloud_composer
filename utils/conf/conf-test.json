@@ -1,10 +1,16 @@
 {
   "owner": "jc_burnworth",
   "depends_on_past": false,
-  "email_on_failure": false,
+  "email_on_failure": true,
   "email_on_retry": false,
+  "email": ["jcb.learning.gcp@gmail.com"],
   "retries": 0,
   "use_legacy_sql": false,
   "project_id": "cloud-composer-poc-334522",
-  "dataset": "taxi_trips"
+  "dataset": "taxi_trips",
+  "max_active_runs": 1,
+  "schedule_interval": "None",
+  "catchup": false,
+  "template_searchpath": ["/home/airflow/gcs/dags/sql"],
+  "tags": ["test", "taxi"]
 }
