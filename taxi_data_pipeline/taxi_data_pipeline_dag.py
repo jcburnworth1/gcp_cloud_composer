@@ -18,7 +18,8 @@ default_args.update({'taxi_query': 'taxi_query.sql'})  # Add any additional defa
 
 ## Load Params
 params = ReadArgsParams().get_params()
-params.update({'table': 'all_taxi_trips_test'})
+params.update({'table': 'all_taxi_trips_test',
+               'view': 'vw_all_taxi_trips_test'})
 
 ## Testing out default default_args and env variables
 def print_default_args():
@@ -76,7 +77,10 @@ with DAG(dag_id='taxi-data-pipeline',
 
     bq_load_view =  BigQueryExecuteQueryOperator(
         task_id='load_bq_view',
-        sql='create_replace_view.sql'
+        sql='create_replace_view.sql',
+        destination_dataset_table=None,
+        time_partitioning=None,
+        params=params
     )
 
     email_test = EmailOperator(
@@ -86,4 +90,4 @@ with DAG(dag_id='taxi-data-pipeline',
         html_content='THIS IS A TEST'
     )
 
-    start >> [pda, pp, pe] >> bq_load_table >> bq_load_table >> email_test >> end
+    start >> [pda, pp, pe] >> bq_load_table >> bq_load_view >> email_test >> end
