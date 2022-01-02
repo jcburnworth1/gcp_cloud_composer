@@ -66,12 +66,17 @@ with DAG(dag_id='taxi-data-pipeline',
     pe = PythonOperator(task_id='print_environment',
                                         python_callable=print_env)
 
-    bq_load = BigQueryExecuteQueryOperator(
+    bq_load_table = BigQueryExecuteQueryOperator(
         task_id='load_bq_table',
         sql=default_args['taxi_query'],
         destination_dataset_table=f"{params['project_id']}.{params['dataset']}.{params['table']}",
         write_disposition='WRITE_TRUNCATE',
         params=params
+    )
+
+    bq_load_view =  BigQueryExecuteQueryOperator(
+        task_id='load_bq_view',
+        sql='create_replace_view.sql'
     )
 
     email_test = EmailOperator(
@@ -81,4 +86,4 @@ with DAG(dag_id='taxi-data-pipeline',
         html_content='THIS IS A TEST'
     )
 
-    start >> [pda, pp, pe] >> bq_load >> email_test >> end
+    start >> [pda, pp, pe] >> bq_load_table >> bq_load_table >> email_test >> end
