@@ -1,4 +1,4 @@
-CREATE OR REPLACE VIEW {{ params.project_id }}.{{ params.dataset }}.{{ params.view_name }}
+CREATE OR REPLACE VIEW {{ params.project_id }}.{{ params.dataset }}.{{ params.view }}
 OPTIONS (
     -- Set labels to show source process and step for view
     labels=[
@@ -7,6 +7,6 @@ OPTIONS (
     ]
 )
 AS (
-    SELECT * FROM {{ params.project_id }}.{{ params.dataset }}.{{ params.table_name }}
+    SELECT * FROM {{ params.project_id }}.{{ params.dataset }}.{{ params.table }}
     LIMIT 10
 )
