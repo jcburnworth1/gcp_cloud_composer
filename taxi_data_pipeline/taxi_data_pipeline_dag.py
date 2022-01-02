@@ -19,15 +19,17 @@ default_args.update({'taxi_query': 'taxi_query.sql'})  # Add any additional defa
 ## Load Params
 params = ReadArgsParams().get_params()
 params.update({'table': 'all_taxi_trips_test',
-               'view': 'vw_all_taxi_trips_test'})
+               'view': 'vw_all_taxi_trips_test'})  # Add any additional params here for DAG specific needs
 
-## Testing out default default_args and env variables
+
+## Functions
 def print_default_args():
     """
     Print default arguments
     :return: None
     """
     print(f'########## default_args: {default_args} ##########')
+
 
 def print_params():
     """
@@ -36,12 +38,14 @@ def print_params():
     """
     print(f'########## Params: {params} ##########')
 
+
 def print_env():
     """
     Print environment variables
     :return: None
     """
     print(f"##### Env Vars: {os.environ} #####")
+
 
 ## Setup DAG using context manager
 with DAG(dag_id='taxi-data-pipeline',
@@ -53,19 +57,18 @@ with DAG(dag_id='taxi-data-pipeline',
          tags=default_args['tags'],
          template_searchpath=default_args['template_searchpath'],
          params=params) as dag:
-
     start = DummyOperator(task_id='start')
 
     end = DummyOperator(task_id='end')
 
     pda = PythonOperator(task_id='print_default_args',
-                                        python_callable=print_default_args)
+                         python_callable=print_default_args)
 
     pp = PythonOperator(task_id='print_params',
-                                  python_callable=print_params)
+                        python_callable=print_params)
 
     pe = PythonOperator(task_id='print_environment',
-                                        python_callable=print_env)
+                        python_callable=print_env)
 
     bq_load_table = BigQueryExecuteQueryOperator(
         task_id='load_bq_table',
@@ -75,7 +78,7 @@ with DAG(dag_id='taxi-data-pipeline',
         params=params
     )
 
-    bq_load_view =  BigQueryExecuteQueryOperator(
+    bq_load_view = BigQueryExecuteQueryOperator(
         task_id='load_bq_view',
         sql='create_replace_view.sql',
         destination_dataset_table=None,
