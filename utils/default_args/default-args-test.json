@@ -9,7 +9,7 @@
   "max_active_runs": 1,
   "owner": "jc_burnworth",
   "retries": 0,
-  "schedule_interval": "None",
+  "schedule_interval": null,
   "tags": [
     "test",
     "taxi"
