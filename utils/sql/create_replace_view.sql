@@ -2,8 +2,8 @@ CREATE OR REPLACE VIEW {{ params.project_id }}.{{ params.dataset }}.{{ params.vi
 OPTIONS (
     -- Set labels to show source process and step for view
     labels=[
-    ('dag-id': '{{ task.dag_id.lower() }}'),
-    ('task-id': '{{ task.task_id.lower() }}')
+    ('dag-id', '{{ task.dag_id.lower() }}'),
+    ('task-id', '{{ task.task_id.lower() }}')
     ]
 )
 AS (
