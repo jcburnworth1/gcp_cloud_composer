@@ -38,7 +38,7 @@ def print_params():
 def print_env():
     """
     Print environment variables
-    :return:
+    :return: None
     """
     print(f"##### Env Vars: {os.environ} #####")
 
@@ -57,13 +57,13 @@ with DAG(dag_id='taxi-data-pipeline',
 
     end = DummyOperator(task_id='end')
 
-    print_default_args = PythonOperator(task_id='print_default_args',
+    pda = PythonOperator(task_id='print_default_args',
                                         python_callable=print_default_args)
 
-    print_params = PythonOperator(task_id='print_params',
+    pp = PythonOperator(task_id='print_params',
                                   python_callable=print_params)
 
-    print_environment = PythonOperator(task_id='print_environment',
+    pe = PythonOperator(task_id='print_environment',
                                         python_callable=print_env)
 
     bq_load = BigQueryExecuteQueryOperator(
@@ -81,4 +81,4 @@ with DAG(dag_id='taxi-data-pipeline',
         html_content='THIS IS A TEST'
     )
 
-    start >> [print_default_args, print_params, print_env] >> bq_load >> email_test >> end
+    start >> [pda, pp, pe] >> bq_load >> email_test >> end
