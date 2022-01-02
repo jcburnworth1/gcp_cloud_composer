@@ -4,10 +4,13 @@ import os
 import json
 from typing import Dict
 
+
 class ReadArgsParams:
 
-    ## Initialize GCS client and get bucket details
     def __init__(self):
+        """
+        Initialize GCS client and get bucket details during instantiation
+        """
         self.client = storage.Client()
         self.bucket_name = os.environ['GCS_BUCKET']
         self.bucket = self.client.get_bucket(os.environ['GCS_BUCKET'])

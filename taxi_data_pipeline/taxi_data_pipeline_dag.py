@@ -8,6 +8,7 @@ from airflow.operators.python import PythonOperator
 from airflow.operators.email import EmailOperator
 from airflow.providers.google.cloud.operators.bigquery import BigQueryExecuteQueryOperator
 from utils.python.read_args_params import ReadArgsParams
+from utils.python.helpers import Helpers
 
 ## Add library for customs utils
 sys.path.append(os.environ['GCS_BUCKET'] + '/dags/utils/python')
@@ -21,32 +22,6 @@ params = ReadArgsParams().get_params()
 params.update({'table': 'all_taxi_trips_test',
                'view': 'vw_all_taxi_trips_test'})  # Add any additional params here for DAG specific needs
 
-
-## Functions
-def print_default_args():
-    """
-    Print default arguments
-    :return: None
-    """
-    print(f'########## default_args: {default_args} ##########')
-
-
-def print_params():
-    """
-    Print default params
-    :return: None
-    """
-    print(f'########## Params: {params} ##########')
-
-
-def print_env():
-    """
-    Print environment variables
-    :return: None
-    """
-    print(f"##### Env Vars: {os.environ} #####")
-
-
 ## Setup DAG using context manager
 with DAG(dag_id='taxi-data-pipeline',
          start_date=datetime(2021, 12, 8),
@@ -57,18 +32,21 @@ with DAG(dag_id='taxi-data-pipeline',
          tags=default_args['tags'],
          template_searchpath=default_args['template_searchpath'],
          params=params) as dag:
+
     start = DummyOperator(task_id='start')
 
     end = DummyOperator(task_id='end')
 
     pda = PythonOperator(task_id='print_default_args',
-                         python_callable=print_default_args)
+                         python_callable=Helpers.print_default_args,
+                         op_kwargs={'default_arg': default_args})
 
     pp = PythonOperator(task_id='print_params',
-                        python_callable=print_params)
+                        python_callable=Helpers.print_params,
+                        op_kwargs={'params': params})
 
     pe = PythonOperator(task_id='print_environment',
-                        python_callable=print_env)
+                        python_callable=Helpers.print_env)
 
     bq_load_table = BigQueryExecuteQueryOperator(
         task_id='load_bq_table',
