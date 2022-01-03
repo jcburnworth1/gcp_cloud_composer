@@ -12,3 +12,10 @@
     * params-environ.json - Proper params are dynamically loaded on DAG run
   * python
     * read_args_params.py - Class for loading default arguments and params
+
+## Local Development
+* `pip install apache-airflow`
+* 'pip install google-cloud-storage'
+* 'pip install apache-airflow-providers-google'
+* Setup environment variable 
+  * GCS_BUCKET - Bucket name of the Composer Bucket
