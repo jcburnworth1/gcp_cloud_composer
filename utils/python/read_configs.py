@@ -5,7 +5,7 @@ import json
 from typing import Dict
 
 
-class ReadArgsParams:
+class Configuration:
 
     def __init__(self):
         """
@@ -15,6 +15,20 @@ class ReadArgsParams:
         self.bucket_name = os.environ['GCS_BUCKET']
         self.bucket = self.client.get_bucket(os.environ['GCS_BUCKET'])
         self.environ = self.get_environ()
+
+    def get_environ(self) -> str:
+        """
+        Upon object instantiation, determine proper environment
+        :return: prod, test, or dev
+        """
+        if self.bucket_name == 'us-central1-composer-burnwo-db1f01e8-bucket':
+            environ = 'prod'
+        elif self.bucket_name == 'test-bucket':
+            environ = 'test'
+        else:
+            environ = 'dev'
+
+        return environ
 
     def get_default_args(self) -> Dict:
         """
@@ -50,16 +64,12 @@ class ReadArgsParams:
 
         return params
 
-    def get_environ(self) -> str:
+    def get_markdown(self, md_file: str = None) -> str:
         """
-        Upon object instantiation, determine proper environment
-        :return: prod, test, or dev
+        Load DAG specific markdown
+        :return: Sting variable with markdown
         """
-        if self.bucket_name == 'us-central1-composer-burnwo-db1f01e8-bucket':
-            environ = 'prod'
-        elif self.bucket_name == 'test-bucket':
-            environ = 'test'
-        else:
-            environ = 'dev'
+        with open(f'dags/markdowns/{md_file}', 'r') as f:
+            doc = f.read()
 
-        return environ
+        return doc

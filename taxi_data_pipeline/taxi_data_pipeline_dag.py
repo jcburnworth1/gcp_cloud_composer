@@ -7,18 +7,21 @@ from airflow.operators.dummy import DummyOperator
 from airflow.operators.python import PythonOperator
 from airflow.operators.email import EmailOperator
 from airflow.providers.google.cloud.operators.bigquery import BigQueryExecuteQueryOperator
-from utils.python.read_args_params import ReadArgsParams
+from utils.python.read_configs import Configuration
 from utils.python.helpers import Helpers
 
 ## Add library for customs utils
 sys.path.append(os.environ['GCS_BUCKET'] + '/dags/utils/python')
 
+## Load Markdown
+doc = Configuration.get_markdown(md_file='taxi-data-pipeline.md')
+
 ## Load Default Args
-default_args = ReadArgsParams().get_default_args()
+default_args = Configuration().get_default_args()
 default_args.update({'taxi_query': 'taxi_query.sql'})  # Add any additional default_args here for DAG specific needs
 
 ## Load Params
-params = ReadArgsParams().get_params()
+params = Configuration().get_params()
 params.update({'table': 'all_taxi_trips_test',
                'view': 'vw_all_taxi_trips_test'})  # Add any additional params here for DAG specific needs
 
@@ -32,6 +35,7 @@ with DAG(dag_id='taxi-data-pipeline',
          tags=default_args['tags'],
          template_searchpath=default_args['template_searchpath'],
          params=params) as dag:
+    dag.doc_md = doc
 
     start = DummyOperator(task_id='start')
 
