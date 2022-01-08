@@ -19,3 +19,7 @@ steps:
     id: 'load_python_utils'
     # Load python utils to gs://us-central1-composer-burnwo-db1f01e8-bucket/dag/utils
     args: [ 'gsutil', 'cp', 'utils/python/*.py', 'gs://us-central1-composer-burnwo-db1f01e8-bucket/dags/utils/python/']
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    id: 'load_markdowns'
+    # Load python markdown files to gs://us-central1-composer-burnwo-db1f01e8-bucket/dag/markdowns
+    args: [ 'gsutil', 'cp', '*/*.md', 'gs://us-central1-composer-burnwo-db1f01e8-bucket/dags/markdown/' ]
