@@ -4,7 +4,6 @@ import os
 import json
 from typing import Dict
 
-
 class Configuration:
 
     def __init__(self):
