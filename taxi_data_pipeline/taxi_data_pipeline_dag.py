@@ -14,7 +14,7 @@ from utils.python.helpers import Helpers
 sys.path.append(os.environ['GCS_BUCKET'] + '/dags/utils/python')
 
 ## Load Markdown
-doc = Configuration.get_markdown(md_file='taxi-data-pipeline.md')
+doc = Configuration.get_markdown(md_file='taxi_data_pipeline.md')
 
 ## Load Default Args
 default_args = Configuration().get_default_args()
