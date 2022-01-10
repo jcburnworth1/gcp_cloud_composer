@@ -11,8 +11,8 @@
   "retries": 0,
   "schedule_interval": null,
   "tags": [
-    "test",
-    "taxi"
+    "template",
+    "changeme"
   ],
   "template_searchpath": [
     "/home/airflow/gcs/dags/sql"
