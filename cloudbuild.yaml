@@ -1,25 +1,25 @@
 steps:
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-    # Load dags to gs://us-central1-composer-burnwo-db1f01e8-bucket/dag/
+    # Load dags to gs://$_GCS_BUCKET/dag/
     id: 'load_dags'
-    args: ['gsutil', 'cp', '*/*_dag.py', 'gs://us-central1-composer-burnwo-db1f01e8-bucket/dags/']
+    args: ['gsutil', 'cp', '*/*_dag.py', 'gs://$_GCS_BUCKET/dags/']
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-    # Load sql to gs://us-central1-composer-burnwo-db1f01e8-bucket/dag/sql/
+    # Load sql to gs://$_GCS_BUCKET/dag/sql/
     id: 'load_sql'
-    args: [ 'gsutil', 'cp', '*/sql/*.sql', 'gs://us-central1-composer-burnwo-db1f01e8-bucket/dags/sql/']
+    args: [ 'gsutil', 'cp', '*/sql/*.sql', 'gs://$_GCS_BUCKET/dags/sql/']
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-    # Load configuration file to gs://us-central1-composer-burnwo-db1f01e8-bucket/dags/default_args/
+    # Load configuration file to gs://$_GCS_BUCKET/dags/default_args/
     id: 'load_default_args'
-    args: [ 'gsutil', 'cp', 'utils/default_args/*.json', 'gs://us-central1-composer-burnwo-db1f01e8-bucket/dags/default_args/']
+    args: [ 'gsutil', 'cp', 'utils/default_args/*.json', 'gs://$_GCS_BUCKET/dags/default_args/']
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     id: 'load_params'
-    # Load python utils to gs://us-central1-composer-burnwo-db1f01e8-bucket/dag/params/
-    args: [ 'gsutil', 'cp', 'utils/params/*.json', 'gs://us-central1-composer-burnwo-db1f01e8-bucket/dags/params/' ]
+    # Load python utils to gs://$_GCS_BUCKET/dag/params/
+    args: [ 'gsutil', 'cp', 'utils/params/*.json', 'gs://$_GCS_BUCKET/dags/params/' ]
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     id: 'load_python_utils'
-    # Load python utils to gs://us-central1-composer-burnwo-db1f01e8-bucket/dag/utils
-    args: [ 'gsutil', 'cp', 'utils/python/*.py', 'gs://us-central1-composer-burnwo-db1f01e8-bucket/dags/utils/python/']
+    # Load python utils to gs://$_GCS_BUCKET/dag/utils
+    args: [ 'gsutil', 'cp', 'utils/python/*.py', 'gs://$_GCS_BUCKET/dags/utils/python/']
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     id: 'load_markdowns'
-    # Load python markdown files to gs://us-central1-composer-burnwo-db1f01e8-bucket/dag/markdowns
-    args: [ 'gsutil', 'cp', '*/*.md', 'gs://us-central1-composer-burnwo-db1f01e8-bucket/dags/markdown/' ]
+    # Load python markdown files to gs://$_GCS_BUCKET/dag/markdowns
+    args: [ 'gsutil', 'cp', '*/*.md', 'gs://$_GCS_BUCKET/dags/markdown/' ]
