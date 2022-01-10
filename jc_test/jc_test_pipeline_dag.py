@@ -24,7 +24,7 @@ params.update({'table': 'table',
                'view': 'vw_view'})  # Add any additional params here for DAG specific needs
 
 ## Setup DAG using context manager
-with DAG(dag_id='template',
+with DAG(dag_id='template_jc',
          start_date=datetime(2021, 12, 8),
          default_args=default_args,
          catchup=default_args['catchup'],
