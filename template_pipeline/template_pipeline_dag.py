@@ -12,7 +12,7 @@ from utils.python.read_configs import Configuration
 sys.path.append(os.environ['GCS_BUCKET'] + '/dags/utils/python')
 
 ## Load Markdown
-doc = Configuration.get_markdown(md_file='template_pipeline.md')
+doc = Configuration().get_markdown(md_file='template_pipeline.md')
 
 ## Load Default Args
 default_args = Configuration().get_default_args()
