@@ -66,9 +66,10 @@ class Configuration:
     def get_markdown(self, md_file: str = None) -> str:
         """
         Load DAG specific markdown
-        :return: Sting variable with markdown
+        :param md_file: Markdown file to load
+        :return: String variable with markdown
         """
-        with open(f'dags/markdowns/{md_file}', 'r') as f:
-            doc = f.read()
+        blob = self.bucket.blob(f'dags/markdowns/{md_file}')
+        markdown_file = blob.download_as_string()
 
-        return doc
+        return markdown_file
