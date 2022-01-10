@@ -22,4 +22,4 @@ steps:
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     id: 'load_markdowns'
     # Load python markdown files to gs://$_GCS_BUCKET/dag/markdowns
-    args: [ 'gsutil', 'cp', '*/*.md', 'gs://$_GCS_BUCKET/dags/markdown/' ]
+    args: [ 'gsutil', 'cp', '*/*.md', 'gs://$_GCS_BUCKET/dags/markdowns/' ]
