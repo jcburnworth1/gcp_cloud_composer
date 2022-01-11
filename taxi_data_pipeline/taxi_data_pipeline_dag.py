@@ -57,7 +57,8 @@ with DAG(dag_id='taxi-data-pipeline',
         sql=default_args['taxi_query'],
         destination_dataset_table=f"{params['project_id']}.{params['dataset']}.{params['table']}",
         write_disposition='WRITE_TRUNCATE',
-        labels={'dag_id': 'taxi-data-pipeline'},
+        labels={'dag-id': '{{ task.dag_id.lower() }}',
+                'task-id': '{{ task.task_id.lower() }}'},
         params=params
     )
 
