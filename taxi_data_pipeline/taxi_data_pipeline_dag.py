@@ -43,7 +43,7 @@ with DAG(dag_id='taxi-data-pipeline',
 
     pda = PythonOperator(task_id='print_default_args',
                          python_callable=Helpers.print_default_args,
-                         op_kwargs={'default_arg': default_args})
+                         op_kwargs={'default_args': default_args})
 
     pp = PythonOperator(task_id='print_params',
                         python_callable=Helpers.print_params,
@@ -57,6 +57,7 @@ with DAG(dag_id='taxi-data-pipeline',
         sql=default_args['taxi_query'],
         destination_dataset_table=f"{params['project_id']}.{params['dataset']}.{params['table']}",
         write_disposition='WRITE_TRUNCATE',
+        labels={'dag_id': 'taxi-data-pipeline'},
         params=params
     )
 

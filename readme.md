@@ -20,3 +20,7 @@
 * `pip install apache-airflow-providers-google`
 * Setup environment variable 
   * GCS_BUCKET - Bucket name of the Composer Bucket
+
+## Cloud Build Triggers
+* This repo is setup for automatic deploys when pushes are made to master
+  * Upon push, `cloudbuild.yaml` will execute in Cloud Build and place files into their proper places in GCS
