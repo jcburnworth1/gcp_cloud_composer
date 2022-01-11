@@ -54,7 +54,8 @@ with DAG(dag_id='taxi-data-pipeline',
 
     bq_load_table = BigQueryExecuteQueryOperator(
         task_id='load_bq_table',
-        sql=default_args['taxi_query'],
+        use_legacy_sql=default_args['use_legacy_sql'],
+        bql=default_args['taxi_query'],
         destination_dataset_table=f"{params['project_id']}.{params['dataset']}.{params['table']}",
         create_disposition=default_args['create_disposition'],
         write_disposition=default_args['write_disposition'],
