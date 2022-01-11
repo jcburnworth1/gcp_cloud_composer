@@ -12,7 +12,7 @@ from utils.python.read_configs import Configuration
 sys.path.append(os.environ['GCS_BUCKET'] + '/dags/utils/python')
 
 ## Load Markdown
-doc = Configuration().get_markdown(md_file='template_pipeline.md')
+doc_md = Configuration().get_markdown(md_file='template_pipeline.md')
 
 ## Load Default Args
 default_args = Configuration().get_default_args()
@@ -33,7 +33,7 @@ with DAG(dag_id='template',
          tags=default_args['tags'],
          template_searchpath=default_args['template_searchpath'],
          params=params) as dag:
-    dag.doc_md = doc
+    dag.doc_md = doc_md
 
     start = DummyOperator(task_id='start')
 

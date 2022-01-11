@@ -72,4 +72,4 @@ class Configuration:
         blob = self.bucket.blob(f'dags/markdowns/{md_file}')
         markdown_file = blob.download_as_string()
 
-        return markdown_file
+        return markdown_file.decode()
