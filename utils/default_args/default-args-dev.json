@@ -17,5 +17,11 @@
   "template_searchpath": [
     "/home/airflow/gcs/dags/sql"
   ],
-  "use_legacy_sql": false
+  "use_legacy_sql": false,
+  "create_disposition": "CREATE_IF_NEEDED",
+  "write_disposition": "WRITE_TRUNCATE",
+  "labels": {
+    "dag-id": "{{ task.dag_id.lower() }}",
+    "task-id": "{{ task.task_id.lower() }}"
+  }
 }
